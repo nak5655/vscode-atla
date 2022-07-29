@@ -1,14 +1,16 @@
 'use strict';
 
-import { ExtensionContext, window as Window, Uri } from 'vscode';
+import { ExtensionContext, window as Window } from 'vscode';
 import * as lc from "vscode-languageclient/node";
+import { Config } from './config';
 
 let client: lc.LanguageClient;
 
 // 拡張機能が有効になったときに呼ばれる
 export async function activate(context: ExtensionContext) {
     // サーバーのパスを取得
-    const serverPath = Uri.joinPath(context.extensionUri, '..', 'atla-lsp/atla.LanguageServer/bin/Debug', 'atla-lsp.exe').fsPath;
+    const config = new Config(context);
+    const serverPath = config.serverPath;
 
     // サーバーの設定
     const run: lc.Executable = {
