@@ -2,6 +2,11 @@
 
 import * as vscode from 'vscode';
 
+// TODO 環境変数の置換の仕方が分からないのでとりあえず決め打ちで
+function replacePathVar(path: string): string {
+	return path.replace("~", process.env["USERPROFILE"]!);
+}
+
 export class Config {
 	readonly rootSection = "atla";
 
@@ -17,6 +22,10 @@ export class Config {
 	}
 
 	get serverPath() {
-		return this.get<string>("lsp-server.path");
+		return replacePathVar(this.get<string>("lsp-server.path"));
+	}
+
+	get buildSystemPath() {
+		return replacePathVar(this.get<string>("build-system.path"));
 	}
 }

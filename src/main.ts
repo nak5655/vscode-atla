@@ -1,21 +1,37 @@
 'use strict';
 
-import { ExtensionContext, window as Window } from 'vscode';
+import * as vscode from 'vscode';
 import * as lc from "vscode-languageclient/node";
 import { Config } from './config';
+import { activateTaskProvider } from './tasks';
 
 let client: lc.LanguageClient;
 
 // 拡張機能が有効になったときに呼ばれる
-export async function activate(context: ExtensionContext) {
-    // サーバーのパスを取得
+export async function activate(context: vscode.ExtensionContext) {
+    await tryActivate(context).catch(err => {
+        void vscode.window.showErrorMessage(`Cannot activate rust-analyzer: ${err.message}`);
+        throw err;
+    });
+}
+
+async function tryActivate(context: vscode.ExtensionContext) {
     const config = new Config(context);
+
+    // コマンド登録
+    const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+    if (workspaceFolder === undefined) {
+        throw new Error("no folder is opened");
+    }
+    context.subscriptions.push(activateTaskProvider(workspaceFolder, config));
+
+    // サーバーのパスを取得
     const serverPath = config.serverPath;
 
     // サーバーの設定
     const run: lc.Executable = {
         command: serverPath,
-        options: {}
+        options: { env: process.env }
     };
     const serverOptions: lc.ServerOptions = {
         run,
@@ -38,7 +54,7 @@ export async function activate(context: ExtensionContext) {
         // LSPを起動
         client = new lc.LanguageClient('Atla LSP Server', serverOptions, clientOptions);
     } catch (err) {
-        void Window.showErrorMessage('拡張機能の起動に失敗しました。詳細はアウトプットパネルを参照ください');
+        void vscode.window.showErrorMessage('Failued to launch Atla LSP Server. See output for more defails.');
         return;
     }
     client.start().catch((error) => client.error(`Starting the server failed.`, error, 'force'));

@@ -57,9 +57,19 @@
             "properties": {
                 "atla.lsp-server.path": {
                     "type": "string",
-                    "default": "${env:USERPROFILE}/.atla/atla-lsp.exe"
+                    "default": "~/.atla/atla-lsp.exe"
+                },
+                "atla.build-system.path": {
+                    "type": "string",
+                    "default": "~/.atla/atla.exe"
                 }
             }
-        }
+        },
+        "commands": [
+            {
+                "command": "atla.compile",
+                "title": "Compile"
+            }
+        ]
     }
 }
