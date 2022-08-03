@@ -58,6 +58,13 @@ async function tryActivate(context: vscode.ExtensionContext) {
         return;
     }
     client.start().catch((error) => client.error(`Starting the server failed.`, error, 'force'));
+
+    // 通知
+    vscode.workspace.onDidChangeConfiguration(
+        _ => client.sendNotification('workspace/didChangeConfiguration', { settings: "" }),
+        null,
+        context.subscriptions,
+    );
 }
 
 export async function deactivate(): Promise<void> {

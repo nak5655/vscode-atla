@@ -49,7 +49,7 @@ function detectBuildTasks(target: WorkspaceFolder, config: Config): Task[] {
                 cwd: target.uri.fsPath,
             }),
             group,
-            problemMatchers: undefined,//['$rustc'],
+            problemMatchers: ['$atla'],
         }))
         .map(task => {
             // NOTE: It's important to solely use the VSCode-provided constructor (and
