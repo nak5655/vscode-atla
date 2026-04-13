@@ -1,7 +1,7 @@
 'use strict';
 
 import * as vscode from 'vscode';
-import * as lc from "vscode-languageclient/node";
+import * as lc from 'vscode-languageclient/node';
 import { Config } from './config';
 import { activateTaskProvider } from './tasks';
 
@@ -9,8 +9,8 @@ let client: lc.LanguageClient;
 
 // 拡張機能が有効になったときに呼ばれる
 export async function activate(context: vscode.ExtensionContext) {
-    await tryActivate(context).catch(err => {
-        void vscode.window.showErrorMessage(`Cannot activate rust-analyzer: ${err.message}`);
+    await tryActivate(context).catch((err) => {
+        void vscode.window.showErrorMessage(`Cannot activate Atla: ${err.message}`);
         throw err;
     });
 }
@@ -21,7 +21,7 @@ async function tryActivate(context: vscode.ExtensionContext) {
     // コマンド登録
     const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
     if (workspaceFolder === undefined) {
-        throw new Error("no folder is opened");
+        throw new Error('no folder is opened');
     }
     context.subscriptions.push(activateTaskProvider(workspaceFolder, config));
 
@@ -31,7 +31,7 @@ async function tryActivate(context: vscode.ExtensionContext) {
     // サーバーの設定
     const run: lc.Executable = {
         command: serverPath,
-        options: { env: process.env }
+        options: { env: process.env },
     };
     const serverOptions: lc.ServerOptions = {
         run,
@@ -40,9 +40,7 @@ async function tryActivate(context: vscode.ExtensionContext) {
     // LSPとの通信に使うリクエストを定義
     const clientOptions: lc.LanguageClientOptions = {
         // 対象とするファイルの種類や拡張子
-        documentSelector: [
-            { scheme: 'file', language: 'atla' },
-        ],
+        documentSelector: [{ scheme: 'file', language: 'atla' }],
         // 警告パネルでの表示名
         diagnosticCollectionName: 'Atla',
         revealOutputChannelOn: lc.RevealOutputChannelOn.Never,
@@ -54,14 +52,16 @@ async function tryActivate(context: vscode.ExtensionContext) {
         // LSPを起動
         client = new lc.LanguageClient('Atla LSP Server', serverOptions, clientOptions);
     } catch (err) {
-        void vscode.window.showErrorMessage('Failued to launch Atla LSP Server. See output for more defails.');
+        void vscode.window.showErrorMessage(
+            'Failed to launch Atla LSP Server. See output for more details.',
+        );
         return;
     }
     client.start().catch((error) => client.error(`Starting the server failed.`, error, 'force'));
 
     // 通知
     vscode.workspace.onDidChangeConfiguration(
-        _ => client.sendNotification('workspace/didChangeConfiguration', { settings: "" }),
+        (_) => client.sendNotification('workspace/didChangeConfiguration', { settings: '' }),
         null,
         context.subscriptions,
     );

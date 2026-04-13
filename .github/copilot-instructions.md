@@ -30,20 +30,21 @@ npm run vscode:prepublish  # Pre-publish compilation
 ## Architecture
 
 The extension follows a **thin wrapper pattern**:
+
 - **[src/main.ts](src/main.ts)**: Extension activation, LSP client initialization, task provider instantiation
 - **[src/config.ts](src/config.ts)**: Resolves configurable paths (`atla-lsp.exe`, `atla.exe`); handles Windows home directory expansion via `USERPROFILE`
 - **[src/tasks.ts](src/tasks.ts)**: VS Code task provider for Atla build operations (build, clean, run); includes problem matcher for parsing compiler errors
 
-**Key design decision**: The extension does *not* implement language features directly. All semantics, diagnostics, and analysis are delegated to the external Language Server. The extension's role is configuration, activation, and task integration.
+**Key design decision**: The extension does _not_ implement language features directly. All semantics, diagnostics, and analysis are delegated to the external Language Server. The extension's role is configuration, activation, and task integration.
 
 ## Configuration
 
 The extension requires two external executables to be installed and configured:
 
-| Executable | Purpose | Default Path | Configurable |
-|-----------|---------|----------------|---|
-| `atla-lsp.exe` | Language Server | `~/.atla/atla-lsp.exe` | Yes (extension settings) |
-| `atla.exe` | Build system CLI | `~/.atla/atla.exe` | Yes (extension settings) |
+| Executable     | Purpose          | Default Path           | Configurable             |
+| -------------- | ---------------- | ---------------------- | ------------------------ |
+| `atla-lsp.exe` | Language Server  | `~/.atla/atla-lsp.exe` | Yes (extension settings) |
+| `atla.exe`     | Build system CLI | `~/.atla/atla.exe`     | Yes (extension settings) |
 
 Users must have these installed before the extension can provide full functionality. The `~` home directory is resolved using `process.env.USERPROFILE` on Windows.
 
@@ -70,16 +71,19 @@ No runtime dependencies except VS Code's built-in extension API.
 ## Common Workflows
 
 **Adding a new task provider action:**
+
 1. Define task in [src/tasks.ts](src/tasks.ts) with appropriate problem matcher regex
 2. Update extension metadata in [package.json](package.json) if exposing new task types
 3. Ensure paths resolve correctly via [src/config.ts](src/config.ts)
 
 **Debugging LSP communication:**
+
 - Enable LSP tracing via VS Code's extension host output
 - Validate `atla-lsp.exe` is running and responding on the configured port/socket
 - Check [src/main.ts](src/main.ts) for client initialization
 
 **Modifying configuration paths:**
+
 - All path logic centralized in [src/config.ts](src/config.ts)
 - Update default paths there; user overrides happen via VS Code settings
 
