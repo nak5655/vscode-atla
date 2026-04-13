@@ -16,7 +16,8 @@
         "url": "https://github.com/tatsuno/atla-vscode/issues"
     },
     "engines": {
-        "vscode": "^1.67.0"
+        "vscode": "^1.115.0",
+        "node": "^25.6.0"
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",
@@ -25,16 +26,15 @@
         "lint": "eslint ./src --ext .ts,.tsx"
     },
     "devDependencies": {
-        "@types/node": "^16.11.7",
-        "@types/vscode": "1.67.0",
-        "@typescript-eslint/eslint-plugin": "^5.19.0",
-        "@typescript-eslint/parser": "^5.19.0",
-        "eslint": "^8.13.0",
-        "mocha": "^11.7.1",
-        "typescript": "^4.7.2"
+        "@types/node": "^25.6.0",
+        "@types/vscode": "^1.115.0",
+        "@typescript-eslint/eslint-plugin": "^8.58.1",
+        "@typescript-eslint/parser": "^8.58.1",
+        "eslint": "^10.2.0",
+        "typescript": "^6.0.2"
     },
     "dependencies": {
-        "vscode-languageclient": "8.0.1"
+        "vscode-languageclient": "^9.0.1"
     },
     "activationEvents": [
         "onLanguage:atla"
