@@ -1,36 +1,41 @@
 {
-    "publisher": "Atla Project",
+    "publisher": "atla-lang",
     "name": "atla",
     "displayName": "Atla",
     "description": "Atla language support for VS Code.",
     "icon": "images/icon.png",
     "version": "0.0.1",
-    "private": true,
+    "private": false,
     "author": "Tatsuya Nakano",
     "license": "SEE LICENSE IN LICENSE",
     "repository": {
         "type": "git",
-        "url": "https://github.com/tatsuno/atla-vscode"
+        "url": "https://github.com/nak5655/vscode-atla"
     },
     "bugs": {
-        "url": "https://github.com/tatsuno/atla-vscode/issues"
+        "url": "https://github.com/nak5655/vscode-atla/issues"
     },
     "engines": {
-        "vscode": "^1.115.0",
-        "node": "^25.6.0"
+        "vscode": "^1.90.0",
+        "node": ">=22"
     },
     "scripts": {
-        "vscode:prepublish": "npm run compile",
-        "compile": "tsc -b",
-        "watch": "tsc -b -w",
-        "lint": "eslint ./src --ext .ts,.tsx"
+        "vscode:prepublish": "npm run check",
+        "build": "esbuild src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node --sourcemap",
+        "dev": "esbuild src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node --sourcemap --watch",
+        "typecheck": "tsc --noEmit",
+        "lint": "eslint ./src",
+        "format": "prettier --write .",
+        "check": "npm run lint && npm run typecheck && npm run build"
     },
     "devDependencies": {
-        "@types/node": "^25.6.0",
+        "@types/node": "^22.19.17",
         "@types/vscode": "^1.115.0",
         "@typescript-eslint/eslint-plugin": "^8.58.1",
         "@typescript-eslint/parser": "^8.58.1",
+        "esbuild": "^0.28.0",
         "eslint": "^10.2.0",
+        "prettier": "^3.8.2",
         "typescript": "^6.0.2"
     },
     "dependencies": {
@@ -39,7 +44,7 @@
     "activationEvents": [
         "onLanguage:atla"
     ],
-    "main": "out/main",
+    "main": "./dist/extension.js",
     "contributes": {
         "languages": [
             {

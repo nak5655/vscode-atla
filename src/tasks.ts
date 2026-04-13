@@ -26,7 +26,7 @@ export function activateTaskProvider(target: WorkspaceFolder, config: Config): D
     const provider: TaskProvider = {
         provideTasks: () => detectBuildTasks(target, config),
         resolveTask: () => undefined, // unused
-    }
+    };
     return tasks.registerTaskProvider(TASK_TYPE, provider);
 }
 
@@ -51,7 +51,7 @@ function detectBuildTasks(target: WorkspaceFolder, config: Config): Task[] {
             group,
             problemMatchers: ['$atla'],
         }))
-        .map(task => {
+        .map((task) => {
             // NOTE: It's important to solely use the VSCode-provided constructor (and
             // *not* use object spread operator!) - otherwise the task will not be picked
             // up by VSCode.
