@@ -1,5 +1,3 @@
-// vscode-rust参考
-
 import {
     Disposable,
     ShellExecution,
