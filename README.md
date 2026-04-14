@@ -1,46 +1,46 @@
-# Atla — VS Code 拡張機能
+# Atla — VS Code Extension
 
-**Atla** プログラミング言語の VS Code 向け言語サポート拡張機能です。  
-Language Server Protocol (LSP) を通じて、リアルタイムの診断・補完・ホバー情報などの IntelliSense 機能を提供します。
+VS Code language support extension for the **Atla** programming language.  
+Provides real-time diagnostics, completions, hover information, and other IntelliSense features via the Language Server Protocol (LSP).
 
-## 機能
+## Features
 
-- リアルタイムエラー診断（LSP 経由）
-- コード補完・ホバー情報・シグネチャヘルプ
-- ビルド / クリーン / 実行タスク（VS Code タスクランナー統合）
-- 問題マッチャー（コンパイラエラーを「問題」パネルに表示）
+- Real-time error diagnostics (via LSP)
+- Code completions, hover information, and signature help
+- Build / Clean / Run tasks (VS Code task runner integration)
+- Problem matcher (displays compiler errors in the Problems panel)
 
-## 必要条件
+## Requirements
 
-| 要件 | バージョン |
-|------|-----------|
+| Requirement | Version |
+|-------------|---------|
 | VS Code | ≥ 1.90.0 |
 | Node.js | ≥ 22 |
-| `atla-lsp.exe` | 別途インストール必須 |
-| `atla.exe` | 別途インストール必須 |
+| `atla-lsp.exe` | Must be installed separately |
+| `atla.exe` | Must be installed separately |
 
-`atla-lsp.exe` と `atla.exe` はデフォルトで `~/.atla/` に配置されていることを想定しています。  
-インストール方法については [Atla 公式サイト](https://github.com/nak5655/vscode-atla) を参照してください。
+`atla-lsp.exe` and `atla.exe` are expected to be located at `~/.atla/` by default.  
+See the [Atla official website](https://atla-lang.org/) for installation instructions.
 
-## インストール
+## Installation
 
-VS Code Marketplace からインストールするか、`.vsix` ファイルを直接インストールしてください。
+Install from the VS Code Marketplace or directly from a `.vsix` file.
 
 ```bash
-# .vsix ファイルからインストール
+# Install from a .vsix file
 code --install-extension atla-0.0.1.vsix
 ```
 
-## 設定
+## Configuration
 
-拡張機能の設定は VS Code の設定（`settings.json`）で変更できます。
+Extension settings can be changed in VS Code's settings (`settings.json`).
 
-| 設定キー | デフォルト値 | 説明 |
-|---------|-------------|------|
-| `atla.lsp-server.path` | `~/.atla/atla-lsp.exe` | Atla LSP サーバーの実行ファイルパス |
-| `atla.build-system.path` | `~/.atla/atla.exe` | Atla ビルドシステムの実行ファイルパス |
+| Setting key | Default | Description |
+|-------------|---------|-------------|
+| `atla.lsp-server.path` | `~/.atla/atla-lsp.exe` | Path to the Atla LSP server executable |
+| `atla.build-system.path` | `~/.atla/atla.exe` | Path to the Atla build system executable |
 
-例：
+Example:
 
 ```jsonc
 // .vscode/settings.json
@@ -50,9 +50,9 @@ code --install-extension atla-0.0.1.vsix
 }
 ```
 
-## ビルド手順（開発者向け）
+## Build Instructions (for developers)
 
-### 1. リポジトリのクローンと依存関係のインストール
+### 1. Clone the repository and install dependencies
 
 ```bash
 git clone https://github.com/nak5655/vscode-atla.git
@@ -60,49 +60,49 @@ cd vscode-atla
 npm install
 ```
 
-### 2. ビルドコマンド一覧
+### 2. Available commands
 
-| コマンド | 説明 |
-|---------|------|
-| `npm run build` | 拡張機能をバンドル（出力: `dist/extension.js`） |
-| `npm run dev` | ウォッチモード — ファイル変更時に自動リビルド |
-| `npm run typecheck` | ファイルを出力せず型チェックのみ実行 |
-| `npm run lint` | `src/` に対して ESLint を実行 |
-| `npm run format` | Prettier でコードをフォーマット |
-| `npm run check` | `lint` + `typecheck` + `build` を一括実行（公開前チェック） |
+| Command | Description |
+|---------|-------------|
+| `npm run build` | Bundle the extension (output: `dist/extension.js`) |
+| `npm run dev` | Watch mode — automatically rebuilds on file changes |
+| `npm run typecheck` | Type-check without emitting files |
+| `npm run lint` | Run ESLint on `src/` |
+| `npm run format` | Format code with Prettier |
+| `npm run check` | Run `lint` + `typecheck` + `build` together (used before publishing) |
 
-### 3. 通常のビルド
+### 3. Standard build
 
 ```bash
 npm run build
 ```
 
-`dist/extension.js` が生成されます。
+Generates `dist/extension.js`.
 
-### 4. 開発時（ウォッチモード）
+### 4. Development (watch mode)
 
 ```bash
 npm run dev
 ```
 
-ファイルを保存するたびに自動でリビルドされます。VS Code の拡張機能ホストをリロードして変更を反映してください。
+Automatically rebuilds whenever a file is saved. Reload the VS Code extension host to apply changes.
 
-### 5. 公開前チェック
+### 5. Pre-publish check
 
 ```bash
 npm run check
 ```
 
-ESLint・型チェック・ビルドをまとめて実行します。PR を出す前に必ず通してください。
+Runs ESLint, type checking, and the build together. Always run this before opening a PR.
 
-### 6. パッケージング（.vsix 生成）
+### 6. Packaging (.vsix)
 
 ```bash
 npx vsce package
 ```
 
-カレントディレクトリに `atla-<version>.vsix` が生成されます。
+Generates `atla-<version>.vsix` in the current directory.
 
-## ライセンス
+## License
 
 [Apache License 2.0](LICENSE)
